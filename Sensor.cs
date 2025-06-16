@@ -22,23 +22,17 @@ namespace InvestigationGame.models
 
 
 
-        public static void Activate(IranianAgent agent)
+        public static bool Activate(IranianAgent agent, string type)
         {
-            int counter = 0;
-            while (counter != 2)
+            if (agent.Sensitive.Contains(type))
             {
-
-                Console.WriteLine("Insert sensor type");
-                string type = Console.ReadLine();
-                if (agent.Sensor.Contains(type))
-                {
-                    counter++;
-                    Console.WriteLine($"You guessed it{counter}/{2}");
-                }
-                
-                
-                
+                return true;
             }
+            else
+            {
+                return false;
+            }
+
         }
     }
 }

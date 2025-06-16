@@ -10,13 +10,16 @@ namespace InvestigationGame.models
     {
         public string Name;
         public string Rank;
-        public List<string> Sensor;
+        public List<string> Sensitive;
+        public List<string> Sensors;
+
 
         public IranianAgent(string name, string rank,List<string>sensor)
         {
             Name = name;
             Rank = rank;
-            Sensor = sensor;
+            Sensitive = sensor;
+            Sensors = new List<string>();
         }
        
     }
