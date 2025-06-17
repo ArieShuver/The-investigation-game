@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using InvestigationGame.models;
 
-namespace InvestigationGame.models
+namespace InvestigationGame
 {
-
-
-
-    public class SensorRegoler
+    public class PulseSensor : SensorRegoler
     {
-        public string Type;
 
-        public SensorRegoler(string type)
+
+
+
+        public PulseSensor(string type) : base(type)
         {
             Type = type;
         }
@@ -22,20 +21,25 @@ namespace InvestigationGame.models
 
 
 
-        public virtual bool Activate(SensorRegoler s, string sensor,IranianAgent agent)
+        public virtual bool Activate(SensorRegoler s, string sensor, IranianAgent agent)
         {
             if (s.Type == sensor)
             {
                 int index = agent.Sensitive.IndexOf(s);
-                if (!agent.Listindexs.Contains(index))
-                    {
+
+                if (agent.Conn > 3)
+                {
+                    agent.Listindexs.Remove(index);
+                }
+                else
+                {
+
                     return true;
+
                 }
             }
-
             agent.RaisingCounter();
             return false;
-
         }
     }
 }

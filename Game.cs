@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using InvestigationGame.models;
@@ -12,10 +13,10 @@ namespace InvestigationGame
 
 
 
-        public Game()
-        {
+        //public Game()
+        //{
 
-        }
+        //}
 
 
 
@@ -23,20 +24,67 @@ namespace InvestigationGame
 
         public void GameStart()
         {
+            //IranianAgent agent = factory();
+            ActivateAll();
+        }
 
-            List<string> sensors = new List<string>();
+
+
+
+
+
+        public void ActivateAll()
+        {
+            int conn = 0;
+           
+            IranianAgent agent = factory();
+
+            while (conn <= 2)
+            {
+                Console.WriteLine("Insert sensor");
+                string sensor = Console.ReadLine();
+                foreach (SensorRegoler s in agent.Sensitive)
+                {
+                    
+                    if (s.Activate(s,sensor,agent))
+                    {
+                        Console.WriteLine(1);
+                        int index = agent.Sensitive.IndexOf(s);
+                        if (!agent.Listindexs.Contains(index))
+                        {
+                            agent.Listindexs.Add(index);
+                            Console.WriteLine(2);
+                            conn++;
+
+                            Console.WriteLine($"You guessed it{agent.Listindexs.Count()}/2");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
+
+
+
+
+        public IranianAgent factory()
+        {
+            List<SensorRegoler> sensors = new List<SensorRegoler>();
             for (int i = 0; i < 2; i++)
             {
-                sensors.Add(RandomSensor().Type);
+                sensors.Add(RandomSensor());
             }
             IranianAgent agent = new IranianAgent(RandomName(), "junior", sensors);
-
-            Sensor.Activate(agent);
-
-
-
-
+            return agent;
         }
+
+
+
+
 
 
 
@@ -67,18 +115,24 @@ namespace InvestigationGame
 
 
 
-        public Sensor RandomSensor()
-        {
-            List<string> type = new List<string>()
-{
-    "AudioSensor",
 
-"ThermalSensor"
-};
+
+
+
+
+
+        public SensorRegoler RandomSensor()
+        {
+            List<SensorRegoler> type = new List<SensorRegoler>()
+            {
+              new SensorRegoler("SensorRegoler"),
+              new PulseSensor("PulseSensor")
+            };
+
             Random rand = new Random();
-            string typeSensor = type[rand.Next(type.Count)];
-            Sensor sensor = new Sensor(typeSensor);
-            return sensor;
+            SensorRegoler typeSensor = type[rand.Next(type.Count)];
+            Console.WriteLine(typeSensor.Type);
+            return typeSensor;
         }
 
     }
