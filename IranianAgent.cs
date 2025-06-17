@@ -10,17 +10,25 @@ namespace InvestigationGame.models
     {
         public string Name;
         public string Rank;
-        public List<string> Sensitive;
-        public List<string> Sensors;
+        public List<SensorRegoler> Sensitive;
+        public List<int> Listindexs = new List<int>();
+
+        public int Conn;
 
 
-        public IranianAgent(string name, string rank,List<string>sensor)
+
+        public IranianAgent(string name, string rank,List<SensorRegoler>sensor)
         {
             Name = name;
             Rank = rank;
             Sensitive = sensor;
-            Sensors = new List<string>();
+            Conn = 0;
+
         }
-       
+
+        public void RaisingCounter()
+        {
+            Conn++;
+        }
     }
 }

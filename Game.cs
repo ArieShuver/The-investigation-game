@@ -24,32 +24,42 @@ namespace InvestigationGame
 
         public void GameStart()
         {
-            IranianAgent agent = factory();
-            ActivateAll(agent);
+            //IranianAgent agent = factory();
+            ActivateAll();
         }
 
 
 
 
 
-        public void ActivateAll(IranianAgent agent)
 
+        public void ActivateAll()
         {
-            List<int> Listindexs = new List<int>();
             int conn = 0;
+           
+            IranianAgent agent = factory();
 
-            while (conn < 2)
+            while (conn <= 2)
             {
                 Console.WriteLine("Insert sensor");
                 string sensor = Console.ReadLine();
-
-                if (Sensor.Activate(agent, sensor))
+                foreach (SensorRegoler s in agent.Sensitive)
                 {
-                    int index = agent.Sensitive.IndexOf(sensor);
-                    if (!Listindexs.Contains(index))
-                        conn++;
-                    Listindexs.Add(agent.Sensitive.IndexOf(sensor));
-                    Console.WriteLine($"You guessed it{conn}/2");
+                    
+                    if (s.Activate(s,sensor,agent))
+                    {
+                        Console.WriteLine(1);
+                        int index = agent.Sensitive.IndexOf(s);
+                        if (!agent.Listindexs.Contains(index))
+                        {
+                            agent.Listindexs.Add(index);
+                            Console.WriteLine(2);
+                            conn++;
+
+                            Console.WriteLine($"You guessed it{agent.Listindexs.Count()}/2");
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -63,10 +73,10 @@ namespace InvestigationGame
 
         public IranianAgent factory()
         {
-            List<string> sensors = new List<string>();
+            List<SensorRegoler> sensors = new List<SensorRegoler>();
             for (int i = 0; i < 2; i++)
             {
-                sensors.Add(RandomSensor().Type);
+                sensors.Add(RandomSensor());
             }
             IranianAgent agent = new IranianAgent(RandomName(), "junior", sensors);
             return agent;
@@ -111,19 +121,18 @@ namespace InvestigationGame
 
 
 
-        public Sensor RandomSensor()
+        public SensorRegoler RandomSensor()
         {
-            List<string> type = new List<string>()
-{
-    "AudioSensor",
+            List<SensorRegoler> type = new List<SensorRegoler>()
+            {
+              new SensorRegoler("SensorRegoler"),
+              new PulseSensor("PulseSensor")
+            };
 
-"ThermalSensor"
-};
             Random rand = new Random();
-            string typeSensor = type[rand.Next(type.Count)];
-            Sensor sensor = new Sensor(typeSensor);
-            Console.WriteLine(sensor.Type);
-            return sensor;
+            SensorRegoler typeSensor = type[rand.Next(type.Count)];
+            Console.WriteLine(typeSensor.Type);
+            return typeSensor;
         }
 
     }
