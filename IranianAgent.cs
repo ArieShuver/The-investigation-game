@@ -13,7 +13,6 @@ namespace InvestigationGame.models
         public List<SensorRegoler> Sensitive;
         public List<int> Listindexs = new List<int>();
 
-        public int Conn;
 
 
 
@@ -22,13 +21,10 @@ namespace InvestigationGame.models
             Name = name;
             Rank = rank;
             Sensitive = sensor;
-            Conn = 0;
+           
 
         }
 
-        public void RaisingCounter()
-        {
-            Conn++;
-        }
+
     }
 }

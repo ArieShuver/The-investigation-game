@@ -10,7 +10,7 @@ namespace InvestigationGame
     public class PulseSensor : SensorRegoler
     {
 
-
+        public int Conn = 0;
 
 
         public PulseSensor(string type) : base(type)
@@ -21,15 +21,19 @@ namespace InvestigationGame
 
 
 
-        public virtual bool Activate(SensorRegoler s, string sensor, IranianAgent agent)
+        public override bool Activate(string sensor, IranianAgent agent)
         {
-            if (s.Type == sensor)
-            {
-                int index = agent.Sensitive.IndexOf(s);
+            RaisingCounter();
 
-                if (agent.Conn > 3)
+            if (Type == sensor)
+            {
+                int index = agent.Sensitive.IndexOf(this);
+
+                if (Conn > 3)
                 {
                     agent.Listindexs.Remove(index);
+                    Conn = 0;
+                    return true;
                 }
                 else
                 {
@@ -38,8 +42,16 @@ namespace InvestigationGame
 
                 }
             }
-            agent.RaisingCounter();
             return false;
         }
+
+
+
+
+        public void RaisingCounter()
+        {
+            Conn++;
+        }
     }
+
 }

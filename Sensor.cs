@@ -18,22 +18,15 @@ namespace InvestigationGame.models
         {
             Type = type;
         }
-
-
-
-
-        public virtual bool Activate(SensorRegoler s, string sensor,IranianAgent agent)
+        public virtual bool Activate(string sensor,IranianAgent agent)
         {
-            if (s.Type == sensor)
+            if (Type == sensor)
             {
-                int index = agent.Sensitive.IndexOf(s);
-                if (!agent.Listindexs.Contains(index))
-                    {
+             
+                {
                     return true;
                 }
-            }
-
-            agent.RaisingCounter();
+            }           
             return false;
 
         }

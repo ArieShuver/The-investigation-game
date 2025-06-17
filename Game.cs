@@ -12,25 +12,10 @@ namespace InvestigationGame
     {
 
 
-
-        //public Game()
-        //{
-
-        //}
-
-
-
-
-
         public void GameStart()
         {
-            //IranianAgent agent = factory();
             ActivateAll();
         }
-
-
-
-
 
 
         public void ActivateAll()
@@ -39,29 +24,33 @@ namespace InvestigationGame
            
             IranianAgent agent = factory();
 
-            while (conn <= 2)
+            while (agent.Sensitive.Count != agent.Listindexs.Count)
             {
+
                 Console.WriteLine("Insert sensor");
                 string sensor = Console.ReadLine();
                 foreach (SensorRegoler s in agent.Sensitive)
                 {
-                    
-                    if (s.Activate(s,sensor,agent))
+                    if (s.Activate(sensor,agent))
                     {
-                        Console.WriteLine(1);
                         int index = agent.Sensitive.IndexOf(s);
                         if (!agent.Listindexs.Contains(index))
                         {
                             agent.Listindexs.Add(index);
-                            Console.WriteLine(2);
-                            conn++;
+                           
 
-                            Console.WriteLine($"You guessed it{agent.Listindexs.Count()}/2");
-                            break;
+                            Console.WriteLine($"You guessed it {agent.Listindexs.Count()}/2");
+                          break;
                         }
-                    }
+                       
+                    }                                                            
+                    
                 }
+                Console.WriteLine($"No sensor found.You guessed it {agent.Listindexs.Count()}/2");
+
+
             }
+
         }
 
 
