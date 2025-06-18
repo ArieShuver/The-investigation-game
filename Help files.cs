@@ -7,7 +7,7 @@ using InvestigationGame.models;
 
 namespace InvestigationGame
 {
-    public static class HelpFiles
+    public  class HelpFiles
     {
         public static string RandomName()
         {
@@ -29,6 +29,9 @@ namespace InvestigationGame
             string name = iranianNames[rand.Next(iranianNames.Count)];
             return name;
         }
+
+
+
 
         public static SensorRegoler RandomSensor()
         {

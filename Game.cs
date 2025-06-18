@@ -17,13 +17,20 @@ namespace InvestigationGame
 
         public void GameStart()
         {
-            IranianAgent agent = factory(1);
 
-            ActivateAll(agent);
+            for (int i = 1; i < 3; i++)
+            {
+                IranianAgent agent = Fectorys.FactoryAgent(i);
+                ActivateAll(agent);
 
-            IranianAgent agent2 = factory(2);
+            }
+            //IranianAgent agent = Fectorys.FactoryAgent(1);
 
-            ActivateAll(agent2);
+            //ActivateAll(agent);
+
+            //IranianAgent agent2 = Fectorys.FactoryAgent(2);
+
+            //ActivateAll(agent2);
 
         }
 
@@ -67,55 +74,14 @@ namespace InvestigationGame
                         //Console.WriteLine($"No sensor found.You guessed it {agent.Listindexs.Count()}/{agent.Sensitive.Count}");
                     }
 
-                   
+
                 }
-        
-               
+
+
             }
 
         }
-        
 
-
-
-
-
-
-
-        public IranianAgent factory(int rank)
-        {
-            IranianAgent agent;
-            if (rank == 1)
-            {
-                List<SensorRegoler> sensors = new List<SensorRegoler>();
-                for (int i = 0; i < 2; i++)
-                {
-                    sensors.Add(HelpFiles.RandomSensor());
-                }
-                agent = new IranianAgent(HelpFiles.RandomName(), "junior", sensors);
-                return agent;
-            }
-            else if (rank == 2)
-            {
-                List<SensorRegoler> sensors = new List<SensorRegoler>();
-                for (int i = 0; i < 4; i++)
-                {
-                    sensors.Add(HelpFiles.RandomSensor());
-                }
-                agent = new SquadLeader(HelpFiles.RandomName(), "junior", sensors);
-                return agent;
-            }
-            else
-            {
-                List<SensorRegoler> sensors = new List<SensorRegoler>();
-                for (int i = 0; i < 2; i++)
-                {
-                    sensors.Add(HelpFiles.RandomSensor());
-                }
-                agent = new IranianAgent(HelpFiles.RandomName(), "junior", sensors);
-                return agent;
-            }
-        }
     }
 }
 
