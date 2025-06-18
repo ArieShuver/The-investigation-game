@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters;
 using System.Text;
 using System.Threading.Tasks;
+using InvestigationGame;
 using InvestigationGame.models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace InvestigationGame
 {
@@ -14,44 +17,64 @@ namespace InvestigationGame
 
         public void GameStart()
         {
-            ActivateAll();
+            IranianAgent agent = factory(1);
+
+            ActivateAll(agent);
+
+            IranianAgent agent2 = factory(2);
+
+            ActivateAll(agent2);
+
         }
 
 
-        public void ActivateAll()
+
+
+
+
+
+
+        public void ActivateAll(IranianAgent agent)
         {
-            int conn = 0;
-           
-            IranianAgent agent = factory();
+            int CounterErrors = 0;
 
             while (agent.Sensitive.Count != agent.Listindexs.Count)
             {
+                if (agent.Attack(CounterErrors))
+                {
+                    CounterErrors = 0;
 
+                }
                 Console.WriteLine("Insert sensor");
                 string sensor = Console.ReadLine();
-                foreach (SensorRegoler s in agent.Sensitive)
+                for (int i = 0; i < agent.Sensitive.Count; i++)
                 {
-                    if (s.Activate(sensor,agent))
+                    if (agent.Sensitive[i].Activate(sensor, agent))
                     {
-                        int index = agent.Sensitive.IndexOf(s);
-                        if (!agent.Listindexs.Contains(index))
+
+                        if (!agent.Listindexs.Contains(i))
                         {
-                            agent.Listindexs.Add(index);
-                           
+                            agent.Listindexs.Add(i);
+                            Console.WriteLine($"You guessed it{agent.Listindexs.Count()}/{agent.Sensitive.Count}");
 
-                            Console.WriteLine($"You guessed it {agent.Listindexs.Count()}/2");
-                          break;
+                            break;
                         }
-                       
-                    }                                                            
-                    
+
+                    }
+                    //else
+                    {
+                        //CounterErrors++;
+                        //Console.WriteLine($"No sensor found.You guessed it {agent.Listindexs.Count()}/{agent.Sensitive.Count}");
+                    }
+
+                   
                 }
-                Console.WriteLine($"No sensor found.You guessed it {agent.Listindexs.Count()}/2");
-
-
+        
+               
             }
 
         }
+        
 
 
 
@@ -59,70 +82,57 @@ namespace InvestigationGame
 
 
 
-
-        public IranianAgent factory()
+        public IranianAgent factory(int rank)
         {
-            List<SensorRegoler> sensors = new List<SensorRegoler>();
-            for (int i = 0; i < 2; i++)
+            IranianAgent agent;
+            if (rank == 1)
             {
-                sensors.Add(RandomSensor());
+                List<SensorRegoler> sensors = new List<SensorRegoler>();
+                for (int i = 0; i < 2; i++)
+                {
+                    sensors.Add(HelpFiles.RandomSensor());
+                }
+                agent = new IranianAgent(HelpFiles.RandomName(), "junior", sensors);
+                return agent;
             }
-            IranianAgent agent = new IranianAgent(RandomName(), "junior", sensors);
-            return agent;
-        }
-
-
-
-
-
-
-
-
-
-        public string RandomName()
-        {
-            List<string> iranianNames = new List<string>()
-{
-    "Ali",
-    "Reza",
-    "Hossein",
-    "Mohammad",
-    "Amir",
-    "Mehdi",
-    "Saeed",
-    "Ehsan",
-    "Mostafa",
-    "Farhad"
-};
-
-            Random rand = new Random();
-            string name = iranianNames[rand.Next(iranianNames.Count)];
-            return name;
-        }
-
-
-
-
-
-
-
-
-
-
-
-        public SensorRegoler RandomSensor()
-        {
-            List<SensorRegoler> type = new List<SensorRegoler>()
+            else if (rank == 2)
             {
-              new SensorRegoler("SensorRegoler"),
-              new PulseSensor("PulseSensor")
-            };
-
-            Random rand = new Random();
-            SensorRegoler typeSensor = type[rand.Next(type.Count)];
-            Console.WriteLine(typeSensor.Type);
-            return typeSensor;
+                List<SensorRegoler> sensors = new List<SensorRegoler>();
+                for (int i = 0; i < 4; i++)
+                {
+                    sensors.Add(HelpFiles.RandomSensor());
+                }
+                agent = new SquadLeader(HelpFiles.RandomName(), "junior", sensors);
+                return agent;
+            }
+            else
+            {
+                List<SensorRegoler> sensors = new List<SensorRegoler>();
+                for (int i = 0; i < 2; i++)
+                {
+                    sensors.Add(HelpFiles.RandomSensor());
+                }
+                agent = new IranianAgent(HelpFiles.RandomName(), "junior", sensors);
+                return agent;
+            }
         }
-
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

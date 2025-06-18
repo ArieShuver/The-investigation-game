@@ -18,15 +18,14 @@ namespace InvestigationGame.models
         {
             Type = type;
         }
-        public virtual bool Activate(string sensor,IranianAgent agent)
+        public virtual bool Activate(string sensor, IranianAgent agent)
         {
             if (Type == sensor)
             {
-             
-                {
-                    return true;
-                }
-            }           
+
+                return true;
+            }
+
             return false;
 
         }

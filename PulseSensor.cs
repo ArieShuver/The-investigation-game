@@ -15,7 +15,6 @@ namespace InvestigationGame
 
         public PulseSensor(string type) : base(type)
         {
-            Type = type;
         }
 
 
@@ -23,15 +22,15 @@ namespace InvestigationGame
 
         public override bool Activate(string sensor, IranianAgent agent)
         {
-            RaisingCounter();
 
             if (Type == sensor)
             {
-                int index = agent.Sensitive.IndexOf(this);
 
                 if (Conn > 3)
                 {
-                    agent.Listindexs.Remove(index);
+                    int index = agent.Sensitive.IndexOf(this);
+
+                    //agent.Listindexs.Remove(index);
                     Conn = 0;
                     return true;
                 }
@@ -42,10 +41,10 @@ namespace InvestigationGame
 
                 }
             }
+            RaisingCounter();
+
             return false;
         }
-
-
 
 
         public void RaisingCounter()

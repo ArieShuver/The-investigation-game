@@ -24,7 +24,10 @@ namespace InvestigationGame.models
            
 
         }
-
+        public virtual bool Attack(int num)
+        {
+            return false;
+        }
 
     }
 }
